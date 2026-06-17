@@ -12,7 +12,7 @@ export default function cloudcalf(options: cloudcalfPluginOptions = {}): Plugin 
 
     configResolved(resolvedConfig) {
       config = resolvedConfig
-      config.logger.info("[cloudcalf] ", options.test)
+      config.logger.info("[cloudcalf] " + options.test)
       if (config.command === "build") {
         config.logger.info("[cloudcalf] build test")
       }

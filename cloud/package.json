@@ -10,13 +10,18 @@
     "migrate": "wrangler d1 migrations apply cloudcalf --local"
   },
   "dependencies": {
+    "@heroui/react": "catalog:",
+    "@heroui/styles": "catalog:",
+    "@tailwindcss/vite": "catalog:",
     "cloudcalf": "workspace:*",
     "db": "workspace:*",
     "hono": "catalog:",
+    "lucide-react": "catalog:",
     "oauth": "workspace:*",
     "observability": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "catalog:",

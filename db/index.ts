@@ -5,7 +5,7 @@ import type { D1Database } from "@cloudflare/workers-types"
 
 import { createAuth } from "./auth/core"
 import { createCfRegistry } from "./cf/core"
-import { schema } from "./schema"
+import * as schema from "./schema"
 
 type Db = DrizzleD1Database<typeof schema> & {
   auth: ReturnType<typeof createAuth>

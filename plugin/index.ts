@@ -1,4 +1,4 @@
-import type { Plugin, ResolvedConfig } from "vite"
+import type { Plugin, ResolvedConfig } from "vite-plus"
 
 export interface cloudcalfPluginOptions {
   test?: string

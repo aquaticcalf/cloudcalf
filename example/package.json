@@ -12,6 +12,10 @@
     "react": "catalog:",
     "react-dom": "catalog:"
   },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:"
+  },
   "peerDependencies": {
     "vite": "catalog:"
   }

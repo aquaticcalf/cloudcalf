@@ -1,0 +1,35 @@
+{
+  "name": "cloudcalf",
+  "version": "0.0.0",
+  "description": "cloudcalf",
+  "keywords": [],
+  "license": "MIT",
+  "author": "aquaticcalf",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "vp pack",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vite-plus": "^0.1.24"
+  },
+  "packageManager": "pnpm@11.7.0"
+}

@@ -1,2 +1,4 @@
 import * as auth from "./auth/schema"
-export const schema = { ...auth }
+import * as cf from "./cf/schema"
+
+export const schema = { ...auth, ...cf }

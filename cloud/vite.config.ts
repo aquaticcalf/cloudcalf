@@ -1,0 +1,14 @@
+import { defineConfig } from "vite-plus"
+import react from "@vitejs/plugin-react"
+import cloudcalf from "cloudcalf"
+import { cloudflare } from "@cloudflare/vite-plugin"
+
+export default defineConfig({
+  plugins: [
+    react(),
+    cloudcalf({
+      test: "hello",
+    }),
+    cloudflare(),
+  ],
+})

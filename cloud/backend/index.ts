@@ -1,6 +1,6 @@
-import { Hono } from "hono"
+import { createRouter } from "./routes"
 
-const app = new Hono<{ Bindings: Env }>().get("/api/", (c) => c.json({ cloud: "calf" }))
+const app = createRouter()
 
 export type AppType = typeof app
 

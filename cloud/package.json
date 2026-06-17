@@ -6,11 +6,14 @@
     "dev": "vp dev",
     "build": "vp build",
     "types": "wrangler types",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "migrate": "wrangler d1 migrations apply cloudcalf --local"
   },
   "dependencies": {
     "cloudcalf": "workspace:*",
+    "db": "workspace:*",
     "hono": "catalog:",
+    "oauth": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

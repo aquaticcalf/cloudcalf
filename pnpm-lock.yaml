@@ -69,6 +69,12 @@ importers:
         specifier: 'catalog:'
         version: 7.6.1
 
+  cf:
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 4.20260616.1
+
   cloud:
     dependencies:
       cloudcalf:

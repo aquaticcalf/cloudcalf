@@ -5,6 +5,7 @@ packages:
   - cd
   - db
   - oauth
+  - cf
 
 catalogMode: prefer
 

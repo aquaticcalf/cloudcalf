@@ -6,7 +6,7 @@
     "dev": "vp dev",
     "build": "vp build",
     "types": "wrangler types",
-    "deploy": "wrangler deploy",
+    "deploy": "pnpm run build && wrangler d1 migrations apply cloudcalf --remote --config wrangler.prod.toml && wrangler deploy --config wrangler.prod.toml",
     "migrate": "wrangler d1 migrations apply cloudcalf --local"
   },
   "dependencies": {

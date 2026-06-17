@@ -12,6 +12,7 @@ export function createRouter() {
   app.route("/api/observability", createObservabilityRoutes())
 
   app.get("/api", (c) => c.json({ cloud: "calf" }))
+  app.get("/api/", (c) => c.json({ cloud: "calf" }))
 
   return app
 }

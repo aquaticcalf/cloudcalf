@@ -159,6 +159,12 @@ importers:
         specifier: 'catalog:'
         version: 4.12.25
 
+  observability:
+    dependencies:
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 4.20260616.1
+
   plugin:
     dependencies:
       vite:

@@ -1,6 +1,6 @@
 {
   "name": "cloudcalf",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "cloudcalf",
   "keywords": [],
   "license": "MIT",
@@ -28,8 +28,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
-    "typescript": "^6.0.3",
-    "vite-plus": "^0.1.24"
+    "vite-plus": "catalog:"
   },
   "packageManager": "pnpm@11.7.0"
 }

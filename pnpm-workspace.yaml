@@ -1,5 +1,6 @@
 packages:
   - main
+  - example
 
 catalogMode: prefer
 
@@ -7,3 +8,9 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@^0.1.24
   vitest: npm:@voidzero-dev/vite-plus-test@latest
   vite-plus: latest
+  "@vitejs/plugin-react": ^6.0.2
+  react: ^19.2.7
+  react-dom: ^19.2.7
+
+allowBuilds:
+  esbuild: true

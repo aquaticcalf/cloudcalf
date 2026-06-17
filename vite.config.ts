@@ -10,6 +10,7 @@ export default defineConfig({
     format: ["esm", "cjs"],
     sourcemap: true,
     clean: true,
+    external: ["vite"],
   },
   fmt: {
     semi: false,

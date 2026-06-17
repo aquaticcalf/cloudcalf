@@ -2,7 +2,7 @@
   "name": "main",
   "private": true,
   "type": "module",
-  "dependencies": {
+  "peerDependencies": {
     "vite": "catalog:"
   }
 }

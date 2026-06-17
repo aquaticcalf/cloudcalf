@@ -4,6 +4,7 @@ packages:
   - cloud
   - cd
   - db
+  - oauth
 
 catalogMode: prefer
 
@@ -25,6 +26,7 @@ catalog:
   typescript: ^6.0.3
   "@types/react": ^19.2.17
   "@types/react-dom": ^19.2.3
+  arctic: ^3.7.0
 allowBuilds:
   esbuild: true
   sharp: true

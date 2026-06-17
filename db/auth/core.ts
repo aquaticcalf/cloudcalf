@@ -1,18 +1,21 @@
 import { drizzle } from "drizzle-orm/d1"
 import type { D1Database } from "@cloudflare/workers-types"
-import { createUser, verifyUser } from "./user"
+import { findOrCreateUser } from "./user"
 import { createSession, getSession, deleteSession } from "./session"
-import type { User, Session } from "./types"
+import type { Session } from "./types"
 
 export function createAuth(d1: D1Database) {
   const db = drizzle(d1)
 
   return {
-    async signUp(email: string, password: string): Promise<User> {
-      return createUser(db, email, password)
-    },
-    async signIn(email: string, password: string): Promise<Session> {
-      const user = await verifyUser(db, email, password)
+    async authenticate(data: {
+      provider: string
+      providerId: string
+      email: string
+      name: string
+      avatarUrl?: string
+    }): Promise<Session> {
+      const user = await findOrCreateUser(db, data)
       return createSession(db, user.id)
     },
     async getSession(token: string): Promise<Session | null> {

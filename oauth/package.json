@@ -1,0 +1,10 @@
+{
+  "name": "oauth",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "arctic": "catalog:",
+    "hono": "catalog:"
+  }
+}

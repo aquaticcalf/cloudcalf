@@ -3,6 +3,7 @@ packages:
   - example
   - cloud
   - cd
+  - db
 
 catalogMode: prefer
 
@@ -17,6 +18,10 @@ catalog:
   hono: ^4.12.25
   "@octokit/webhooks": ^14.2.0
   "@octokit/webhooks-types": ^7.6.1
+  "@cloudflare/workers-types": ^4.20260616.1
+  drizzle-orm: ^0.45.2
+  drizzle-kit: ^0.31.10
+  nanoid: ^5.1.11
 allowBuilds:
   esbuild: true
   sharp: true

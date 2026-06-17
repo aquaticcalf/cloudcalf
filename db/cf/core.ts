@@ -11,8 +11,8 @@ import { createHyperdriveResources } from "./hyperdrive"
 import { createEmailResources } from "./email"
 import { createFetcherResources } from "./fetcher"
 import { createDispatchResources } from "./dispatch"
-import { createDurableObjectResources } from "./durableobject"
-import { createRateLimitResources } from "./ratelimit"
+import { createDurableobjectResources } from "./durableobject"
+import { createRatelimitResources } from "./ratelimit"
 
 export function createCfRegistry(d1: D1Database) {
   const db = drizzle(d1)
@@ -28,7 +28,7 @@ export function createCfRegistry(d1: D1Database) {
     email: createEmailResources(db),
     fetcher: createFetcherResources(db),
     dispatch: createDispatchResources(db),
-    durableObject: createDurableObjectResources(db),
-    rateLimit: createRateLimitResources(db),
+    durableobject: createDurableobjectResources(db),
+    ratelimit: createRatelimitResources(db),
   }
 }

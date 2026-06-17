@@ -21,7 +21,7 @@ export const rateLimitsRelations = relations(rateLimits, ({ one }) => ({
   user: one(users, { fields: [rateLimits.userId], references: [users.id] }),
 }))
 
-export function createRateLimitResources(db: ReturnType<typeof drizzle>) {
+export function createRatelimitResources(db: ReturnType<typeof drizzle>) {
   return {
     create: async (
       userId: string,

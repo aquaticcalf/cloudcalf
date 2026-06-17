@@ -32,9 +32,9 @@ export function createCf(bindings: CfBindings) {
     ...(bindings.EMAIL && { email: createEmail(bindings.EMAIL) }),
     ...(bindings.FETCHER && { fetcher: createFetcher(bindings.FETCHER) }),
     ...(bindings.DISPATCH && { dispatch: createDispatch(bindings.DISPATCH) }),
-    ...(bindings.DO && { durableObject: createDurableObject(bindings.DO) }),
+    ...(bindings.DO && { durableobject: createDurableObject(bindings.DO) }),
     ...(bindings.RATELIMIT && {
-      rateLimit: createRateLimit(bindings.RATELIMIT),
+      ratelimit: createRateLimit(bindings.RATELIMIT),
     }),
   }
 }

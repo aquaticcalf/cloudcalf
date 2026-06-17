@@ -20,7 +20,7 @@ export const durableObjectsRelations = relations(durableObjects, ({ one }) => ({
   user: one(users, { fields: [durableObjects.userId], references: [users.id] }),
 }))
 
-export function createDurableObjectResources(db: ReturnType<typeof drizzle>) {
+export function createDurableobjectResources(db: ReturnType<typeof drizzle>) {
   return {
     create: async (
       userId: string,

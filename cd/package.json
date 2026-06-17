@@ -1,0 +1,10 @@
+{
+  "name": "cd",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@octokit/webhooks": "catalog:",
+    "@octokit/webhooks-types": "catalog:"
+  }
+}

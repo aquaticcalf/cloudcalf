@@ -5,7 +5,7 @@ export default defineConfig({
     "*": "vp check --fix",
   },
   pack: {
-    entry: ["main/index.ts"],
+    entry: ["plugin/index.ts"],
     dts: true,
     format: ["esm", "cjs"],
     sourcemap: true,

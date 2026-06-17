@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import { createDb, type Env } from "db"
+import { createDb } from "db"
 import { getCookie } from "hono/cookie"
 
 import { createKvRoutes } from "./kv"

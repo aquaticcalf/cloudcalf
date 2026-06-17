@@ -2,7 +2,7 @@ export * from "./schema"
 
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1"
 import type { D1Database } from "@cloudflare/workers-types"
-export type { Env } from "./types"
+
 import { createAuth } from "./auth/core"
 import { createCfRegistry } from "./cf/core"
 import { schema } from "./schema"

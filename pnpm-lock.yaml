@@ -89,6 +89,9 @@ importers:
       oauth:
         specifier: workspace:*
         version: link:../oauth
+      observability:
+        specifier: workspace:*
+        version: link:../observability
       react:
         specifier: 'catalog:'
         version: 19.2.7

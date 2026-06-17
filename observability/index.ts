@@ -32,6 +32,36 @@ export function createObservability(dataset: AnalyticsEngineDataset) {
   }
 }
 
+export async function queryUsage(accountId: string, apiToken: string, userId: string) {
+  const query = `
+    SELECT 
+      blob2 as service,
+      SUM(double1) as primary_metric,
+      SUM(double2) as secondary_metric,
+      SUM(double3) as tertiary_metric
+    FROM USAGE_ANALYTICS 
+    WHERE blob1 = '${userId}' AND timestamp > NOW() - INTERVAL '30' DAY
+    GROUP BY blob2
+  `
+
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/analytics_engine/sql`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+      },
+      body: query,
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error(await response.text())
+  }
+
+  return response.json()
+}
+
 export * from "./kv"
 export * from "./r2"
 export * from "./d1"

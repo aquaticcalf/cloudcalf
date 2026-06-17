@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import { createDb, type Env } from "db"
+import { createDb } from "db"
 
 export function createQueueRoutes() {
   const app = new Hono<{

@@ -1,6 +1,5 @@
 import { createOAuthHandler, github } from "oauth"
 import { createDb } from "db"
-import type { Env } from "db"
 
 export function createAuthRoutes() {
   return createOAuthHandler<{ Bindings: Env }>({

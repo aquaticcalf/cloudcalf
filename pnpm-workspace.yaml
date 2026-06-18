@@ -33,6 +33,7 @@ catalog:
   "@heroui/react": ^3.2.0
   "@heroui/styles": ^3.2.0
   lucide-react: ^1.20.0
+  octokit: ^5.0.5
 allowBuilds:
   esbuild: true
   sharp: true

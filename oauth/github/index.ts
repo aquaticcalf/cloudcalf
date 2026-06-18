@@ -1,4 +1,5 @@
 import { GitHub } from "arctic"
+import { Octokit } from "octokit"
 import type { OAuthProvider, OAuthUser } from "../types"
 
 export function github(options: {
@@ -20,18 +21,30 @@ export function github(options: {
     },
 
     async getUser(tokens): Promise<OAuthUser> {
-      const res = await fetch("https://api.github.com/user", {
-        headers: { Authorization: `Bearer ${tokens.accessToken()}` },
+      const octokit = new Octokit({
+        auth: tokens.accessToken(),
+        userAgent: "cloudcalf",
       })
 
-      if (!res.ok) throw new Error("failed to fetch github user")
+      const { data } = await octokit.rest.users.getAuthenticated()
+      let email = data.email || ""
 
-      const data: any = await res.json()
+      if (!email) {
+        try {
+          const { data: emails } = await octokit.rest.users.listEmailsForAuthenticatedUser()
+          const primaryEmail = emails.find((e) => e.primary) || emails[0]
+          if (primaryEmail) {
+            email = primaryEmail.email
+          }
+        } catch (error) {
+          console.error("failed to fetch private emails : ", error)
+        }
+      }
 
       return {
         provider: "github",
         providerId: String(data.id),
-        email: data.email || "",
+        email: email,
         name: data.name || data.login,
         avatarUrl: data.avatar_url,
       }

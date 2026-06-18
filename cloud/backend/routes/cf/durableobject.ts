@@ -11,6 +11,14 @@ export function createDurableobjectRoutes() {
     const db = c.get("db")
     const userId = c.get("userId")
     const body = await c.req.json()
+
+    if (!body || typeof body.name !== "string" || !/^[a-z0-9-]+$/.test(body.name)) {
+      return c.json(
+        { error: "Invalid name. Only lowercase alphanumeric characters and dashes are allowed." },
+        400,
+      )
+    }
+
     const resource = await db.cf.durableobject.create(userId, body)
     return c.json(resource)
   })
@@ -24,20 +32,46 @@ export function createDurableobjectRoutes() {
 
   app.get("/:id", async (c) => {
     const db = c.get("db")
+    const userId = c.get("userId")
     const resource = await db.cf.durableobject.get(c.req.param("id"))
+
+    if (!resource || resource.userId !== userId) {
+      return c.json({ error: "Durable Object not found" }, 404)
+    }
+
     return c.json(resource)
   })
 
   app.put("/:id", async (c) => {
     const db = c.get("db")
+    const userId = c.get("userId")
+    const id = c.req.param("id")
+
+    const doResource = await db.cf.durableobject.get(id)
+    if (!doResource || doResource.userId !== userId) {
+      return c.json({ error: "Durable Object not found" }, 404)
+    }
+
     const body = await c.req.json()
-    const resource = await db.cf.durableobject.update(c.req.param("id"), body)
+    if (body.name && (typeof body.name !== "string" || !/^[a-z0-9-]+$/.test(body.name))) {
+      return c.json({ error: "Invalid name." }, 400)
+    }
+
+    const resource = await db.cf.durableobject.update(id, body)
     return c.json(resource)
   })
 
   app.delete("/:id", async (c) => {
     const db = c.get("db")
-    await db.cf.durableobject.delete(c.req.param("id"))
+    const userId = c.get("userId")
+    const id = c.req.param("id")
+
+    const doResource = await db.cf.durableobject.get(id)
+    if (!doResource || doResource.userId !== userId) {
+      return c.json({ error: "Durable Object not found" }, 404)
+    }
+
+    await db.cf.durableobject.delete(id)
     return c.json({ success: true })
   })
 

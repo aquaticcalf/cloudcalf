@@ -14,6 +14,7 @@
     "@heroui/styles": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "cloudcalf": "workspace:*",
+    "cloudflare": "catalog:",
     "db": "workspace:*",
     "hono": "catalog:",
     "lucide-react": "catalog:",

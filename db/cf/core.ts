@@ -13,6 +13,7 @@ import { createFetcherResources } from "./fetcher"
 import { createDispatchResources } from "./dispatch"
 import { createDurableobjectResources } from "./durableobject"
 import { createRatelimitResources } from "./ratelimit"
+import { createWorkerResources } from "./worker"
 
 export function createCfRegistry(d1: D1Database) {
   const db = drizzle(d1)
@@ -30,5 +31,6 @@ export function createCfRegistry(d1: D1Database) {
     dispatch: createDispatchResources(db),
     durableobject: createDurableobjectResources(db),
     ratelimit: createRatelimitResources(db),
+    worker: createWorkerResources(db),
   }
 }

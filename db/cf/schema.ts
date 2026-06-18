@@ -11,6 +11,7 @@ export * from "./fetcher"
 export * from "./dispatch"
 export * from "./durableobject"
 export * from "./ratelimit"
+export * from "./worker"
 
 import { relations } from "drizzle-orm"
 import { users } from "../auth/schema"
@@ -27,6 +28,7 @@ import { serviceBindings } from "./fetcher"
 import { dispatchNamespaces } from "./dispatch"
 import { durableObjects } from "./durableobject"
 import { rateLimits } from "./ratelimit"
+import { workers } from "./worker"
 
 export const usersCfRelations = relations(users, ({ many }) => ({
   kvNamespaces: many(kvNamespaces),
@@ -42,4 +44,5 @@ export const usersCfRelations = relations(users, ({ many }) => ({
   dispatchNamespaces: many(dispatchNamespaces),
   durableObjects: many(durableObjects),
   rateLimits: many(rateLimits),
+  workers: many(workers),
 }))

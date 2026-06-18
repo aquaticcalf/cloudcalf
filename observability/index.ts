@@ -1,4 +1,5 @@
 import type { AnalyticsEngineDataset } from "@cloudflare/workers-types"
+import Cloudflare from "cloudflare"
 
 import { createKvTracker } from "./kv"
 import { createR2Tracker } from "./r2"
@@ -33,6 +34,8 @@ export function createObservability(dataset: AnalyticsEngineDataset) {
 }
 
 export async function queryUsage(accountId: string, apiToken: string, userId: string) {
+  const client = new Cloudflare({ apiToken })
+  const safeUserId = userId.replace(/'/g, "''")
   const query = `
     SELECT 
       blob2 as service,
@@ -40,26 +43,19 @@ export async function queryUsage(accountId: string, apiToken: string, userId: st
       SUM(double2) as secondary_metric,
       SUM(double3) as tertiary_metric
     FROM USAGE_ANALYTICS 
-    WHERE blob1 = '${userId}' AND timestamp > NOW() - INTERVAL '30' DAY
+    WHERE blob1 = '${safeUserId}' AND timestamp > NOW() - INTERVAL '30' DAY
     GROUP BY blob2
   `
 
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/analytics_engine/sql`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-      },
+  try {
+    const data = await client.post(`/accounts/${accountId}/analytics_engine/sql`, {
       body: query,
-    },
-  )
-
-  if (!response.ok) {
-    throw new Error(await response.text())
+      headers: { "Content-Type": "text/plain" },
+    })
+    return data
+  } catch (error: any) {
+    throw new Error(error.message || String(error))
   }
-
-  return response.json()
 }
 
 export * from "./kv"

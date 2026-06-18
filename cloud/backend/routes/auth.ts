@@ -28,8 +28,8 @@ export function createAuthRoutes() {
       })
     },
     onError(error, c) {
-      console.error("OAuth Error:", error)
-      return c.text(`oauth authentication failed: ${error.message}`, 401)
+      console.error("oauth error : ", error)
+      return c.text(`oauth authentication failed : ${error.message}`, 401)
     },
   })
 }

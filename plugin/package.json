@@ -1,8 +1,20 @@
 {
-  "name": "main",
+  "name": "cloudcalf",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
-  "peerDependencies": {
-    "vite": "catalog:"
+  "bin": {
+    "cloud": "./cli/index.ts"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./runtime": "./runtime/index.ts",
+    "./vite": "./vite/index.ts"
+  },
+  "dependencies": {
+    "hono": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:"
   }
 }

@@ -1,4 +1,4 @@
-import { createOAuthHandler, github } from "oauth"
+import { createOAuthHandler, github, google } from "oauth"
 import { createDb } from "db"
 
 export function createAuthRoutes() {
@@ -8,6 +8,11 @@ export function createAuthRoutes() {
         clientId: c.env.GITHUB_CLIENT_ID,
         clientSecret: c.env.GITHUB_CLIENT_SECRET,
         redirectUri: new URL(c.req.url).origin + "/api/auth/github/callback",
+      }),
+      google({
+        clientId: c.env.GOOGLE_CLIENT_ID,
+        clientSecret: c.env.GOOGLE_CLIENT_SECRET,
+        redirectUri: new URL(c.req.url).origin + "/api/auth/google/callback",
       }),
     ],
     async onSuccess(user, c) {

@@ -1,4 +1,5 @@
 import { Hono, type Context, type Env as HonoEnv } from "hono"
+import { getCookie } from "hono/cookie"
 import { generateState, generateCodeVerifier } from "arctic"
 import type { OAuthProvider, OAuthUser } from "./types"
 
@@ -19,7 +20,11 @@ export function createOAuthHandler<E extends HonoEnv = any>(options: OAuthHandle
 
     const state = generateState()
     const codeVerifier = generateCodeVerifier()
-    const url = await provider.createAuthorizationUrl(state, ["openid", "email", "profile"])
+    const url = await provider.createAuthorizationUrl(state, codeVerifier, [
+      "openid",
+      "email",
+      "profile",
+    ])
 
     c.header(
       "Set-Cookie",
@@ -47,7 +52,12 @@ export function createOAuthHandler<E extends HonoEnv = any>(options: OAuthHandle
         return c.text("missing code or state", 400)
       }
 
-      const tokens = await provider.validateAuthorizationCode(code)
+      const codeVerifier = getCookie(c, "code_verifier")
+      if (!codeVerifier) {
+        return c.text("missing code verifier", 400)
+      }
+
+      const tokens = await provider.validateAuthorizationCode(code, codeVerifier)
       const user = await provider.getUser(tokens)
       return await options.onSuccess(user, c)
     } catch (error) {

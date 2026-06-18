@@ -10,7 +10,7 @@ export interface OAuthUser {
 
 export interface OAuthProvider {
   name: string
-  createAuthorizationUrl(state: string, scopes?: string[]): Promise<URL>
-  validateAuthorizationCode(code: string): Promise<OAuth2Tokens>
+  createAuthorizationUrl(state: string, codeVerifier: string, scopes?: string[]): Promise<URL>
+  validateAuthorizationCode(code: string, codeVerifier: string): Promise<OAuth2Tokens>
   getUser(tokens: OAuth2Tokens): Promise<OAuthUser>
 }

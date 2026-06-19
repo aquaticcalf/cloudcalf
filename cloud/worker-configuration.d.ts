@@ -3,12 +3,22 @@
 // Runtime types generated with workerd@1.20260616.1 2026-06-08
 interface __BaseEnv_Env {
   DB: D1Database
+  USAGE_ANALYTICS: AnalyticsEngineDataset
   GITHUB_CLIENT_ID: string
   GITHUB_CLIENT_SECRET: string
   CLOUDFLARE_ACCOUNT_ID: string
   CLOUDFLARE_API_TOKEN: string
   GOOGLE_CLIENT_ID: string
   GOOGLE_CLIENT_SECRET: string
+  POLAR_ACCESS_TOKEN: string
+  POLAR_WEBHOOK_SECRET: string
+  POLAR_SERVER: string
+  POLAR_LAUNCH_PRODUCT_ID: string
+  POLAR_SCALE_PRODUCT_ID: string
+  POLAR_PRO_PRODUCT_ID: string
+  POLAR_LAUNCH_CREDITS: string
+  POLAR_SCALE_CREDITS: string
+  POLAR_PRO_CREDITS: string
 }
 declare namespace Cloudflare {
   interface GlobalProps {

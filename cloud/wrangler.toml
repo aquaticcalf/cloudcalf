@@ -1,12 +1,17 @@
 name = "cloud"
 compatibility_date = "2026-06-08"
 main = "backend/index.ts"
+compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
 database_name = "cloudcalf"
 database_id = "local"
 migrations_dir = "../db/migrations"
+
+[[analytics_engine_datasets]]
+binding = "USAGE_ANALYTICS"
+dataset = "USAGE_ANALYTICS"
 
 [assets]
 directory = "./dist/client"
@@ -20,3 +25,10 @@ CLOUDFLARE_ACCOUNT_ID = ""
 CLOUDFLARE_API_TOKEN = ""
 GOOGLE_CLIENT_ID = ""
 GOOGLE_CLIENT_SECRET = ""
+POLAR_SERVER = "sandbox"
+POLAR_LAUNCH_PRODUCT_ID = ""
+POLAR_SCALE_PRODUCT_ID = ""
+POLAR_PRO_PRODUCT_ID = ""
+POLAR_LAUNCH_CREDITS = "250000"
+POLAR_SCALE_CREDITS = "1000000"
+POLAR_PRO_CREDITS = "5000000"

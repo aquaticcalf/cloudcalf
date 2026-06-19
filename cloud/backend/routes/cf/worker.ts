@@ -24,6 +24,9 @@ export function createWorkerRoutes() {
     }
 
     const resource = await db.cf.worker.create(userId, body)
+    const project = await db.platform.projects.getByName(userId, body.name)
+    if (project) await db.platform.projects.update(project.id, { workerId: resource.id })
+    else await db.platform.projects.create(userId, body.name, resource.id)
     return c.json(resource)
   })
 
@@ -86,6 +89,10 @@ export function createWorkerRoutes() {
     }
 
     const client = new Cloudflare({ apiToken })
+    let project = await db.platform.projects.getByName(userId, worker.name)
+    if (!project) project = await db.platform.projects.create(userId, worker.name, worker.id)
+    const deployment = await db.platform.deployments.create(project.id)
+    await db.platform.projects.update(project.id, { status: "deploying" })
 
     try {
       const contentType = c.req.header("content-type") || "application/javascript"
@@ -96,9 +103,17 @@ export function createWorkerRoutes() {
       })
 
       const resource = await db.cf.worker.update(id, {})
+      await db.platform.deployments.finish(deployment.id, "ready")
+      await db.platform.projects.update(project.id, {
+        status: "ready",
+        lastDeployedAt: new Date(),
+        productionUrl: `https://${worker.name}.workers.dev`,
+      })
 
       return c.json({ success: true, cfData, resource })
     } catch (error: any) {
+      await db.platform.deployments.finish(deployment.id, "failed", error.message || String(error))
+      await db.platform.projects.update(project.id, { status: "failed" })
       return c.json(
         {
           error: "failed to deploy to cloudflare",

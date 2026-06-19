@@ -34,6 +34,15 @@ export function createCfRoutes() {
 
     c.set("userId", session.userId)
     c.set("db", db)
+    const match = c.req.path.match(/^\/api\/cf\/([^/]+)\/([^/]+)(?:\/|$)/)
+    if (match && !["infra", "worker", "durableobject"].includes(match[1])) {
+      const registry = db.cf[match[1] as keyof typeof db.cf]
+      if (registry && "get" in registry) {
+        const resource = await (registry as any).get(match[2])
+        if (!resource || resource.userId !== session.userId)
+          return c.json({ error: "Resource not found" }, 404)
+      }
+    }
     await next()
   })
 

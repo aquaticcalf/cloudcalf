@@ -1,6 +1,7 @@
 import { Hono } from "hono"
 import { createDb } from "db"
 import Cloudflare from "cloudflare"
+import { meterOperation, operationCredits } from "observability"
 
 type Db = ReturnType<typeof createDb>
 
@@ -9,6 +10,25 @@ export function createInfraRoutes() {
     Bindings: Env
     Variables: { userId: string; db: Db }
   }>()
+
+  app.use("*", async (c, next) => {
+    const userId = c.get("userId")
+    const db = c.get("db")
+    const path = c.req.path.replace(/^\/api\/cf\/infra/, "")
+    const cost = operationCredits(path)
+    const account = await db.platform.billing.get(userId)
+    if (account.creditBalance < cost)
+      return c.json(
+        { error: "Insufficient credits", required: cost, balance: account.creditBalance },
+        402,
+      )
+    await next()
+    if (c.res.status < 400) {
+      const project = projectName(c)
+      meterOperation(c.env.USAGE_ANALYTICS, userId, project, path)
+      await db.platform.billing.apply(userId, -cost, "usage", `${project}: ${path.slice(1)}`)
+    }
+  })
 
   const kvNs = ensureCfResource("kv", {
     createUrl: (id, _name) => `/accounts/${id}/storage/kv/namespaces`,
@@ -218,7 +238,10 @@ function ensureCfResource(type: string, def: CfResourceDef) {
     const registry = db.cf[registryName] as any
 
     const local = (await registry.listByUser(userId)).find((r: any) => r.name === name)
-    if (local?.cloudflareId) return local.cloudflareId
+    if (local?.cloudflareId) {
+      await connectToProject(db, userId, projectName(c), type, local.id)
+      return local.cloudflareId
+    }
 
     const cf = api(c)
     const aid = account(c)
@@ -228,7 +251,8 @@ function ensureCfResource(type: string, def: CfResourceDef) {
     if (match) {
       const cid = def.extractListId(match)
       if (local) await registry.update(local.id, { cloudflareId: cid })
-      else await registry.create(userId, { name, cloudflareId: cid })
+      const record = local ?? (await registry.create(userId, { name, cloudflareId: cid }))
+      await connectToProject(db, userId, projectName(c), type, record.id)
       return cid
     }
 
@@ -238,7 +262,20 @@ function ensureCfResource(type: string, def: CfResourceDef) {
     })) as any
     const cid = def.extractId(created.result)
     if (local) await registry.update(local.id, { cloudflareId: cid })
-    else await registry.create(userId, { name, cloudflareId: cid })
+    const record = local ?? (await registry.create(userId, { name, cloudflareId: cid }))
+    await connectToProject(db, userId, projectName(c), type, record.id)
     return cid
   }
+}
+
+async function connectToProject(
+  db: Db,
+  userId: string,
+  name: string,
+  type: string,
+  resourceId: string,
+) {
+  let project = await db.platform.projects.getByName(userId, name)
+  if (!project) project = await db.platform.projects.create(userId, name)
+  await db.platform.resources.connect(project.id, type, resourceId)
 }

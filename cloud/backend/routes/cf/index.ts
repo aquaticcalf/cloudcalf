@@ -16,6 +16,7 @@ import { createDispatchRoutes } from "./dispatch"
 import { createDurableobjectRoutes } from "./durableobject"
 import { createRatelimitRoutes } from "./ratelimit"
 import { createWorkerRoutes } from "./worker"
+import { createInfraRoutes } from "./infra"
 
 export function createCfRoutes() {
   const app = new Hono<{
@@ -50,6 +51,7 @@ export function createCfRoutes() {
   app.route("/durableobject", createDurableobjectRoutes())
   app.route("/ratelimit", createRatelimitRoutes())
   app.route("/worker", createWorkerRoutes())
+  app.route("/infra", createInfraRoutes())
 
   return app
 }

@@ -5,6 +5,9 @@
   "keywords": [],
   "license": "MIT",
   "author": "aquaticcalf",
+  "bin": {
+    "cloudcalf": "./dist/cli.mjs"
+  },
   "files": [
     "dist"
   ],
@@ -26,6 +29,9 @@
   "scripts": {
     "build": "vp pack",
     "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "cloudcalf": "workspace:*"
   },
   "devDependencies": {
     "vite-plus": "catalog:"

@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/d1"
 import type { D1Database } from "@cloudflare/workers-types"
-import { findOrCreateUser } from "./user"
+import { findOrCreateUser, getUser } from "./user"
 import { createSession, getSession, deleteSession } from "./session"
 import type { Session } from "./types"
 
@@ -20,6 +20,9 @@ export function createAuth(d1: D1Database) {
     },
     async getSession(token: string): Promise<Session | null> {
       return getSession(db, token)
+    },
+    async getUser(id: string) {
+      return getUser(db, id)
     },
     async signOut(token: string): Promise<void> {
       return deleteSession(db, token)

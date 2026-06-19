@@ -1,0 +1,30 @@
+{
+  "name": "library",
+  "version": "0.0.1",
+  "bin": {
+    "cloudcalf": "./cli.ts"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "workerd": "./server.ts",
+      "worker": "./server.ts",
+      "browser": "./index.ts",
+      "default": "./index.ts"
+    },
+    "./server": "./server.ts",
+    "./config": "./config.ts",
+    "./client": "./client.ts",
+    "./router": "./router.tsx"
+  },
+  "dependencies": {
+    "hono": "catalog:",
+    "plugin": "workspace:*",
+    "react": "catalog:",
+    "vite": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:"
+  }
+}

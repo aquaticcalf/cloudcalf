@@ -5,6 +5,7 @@ import type { OAuthProvider, OAuthUser } from "./types"
 
 export interface OAuthHandlerOptions<E extends HonoEnv = any> {
   providers: (c: Context<E>) => OAuthProvider[] | Promise<OAuthProvider[]>
+  onLogin?(c: Context<E>): Promise<Response | void> | Response | void
   onSuccess(user: OAuthUser, c: Context<E>): Promise<Response> | Response
   onError?(error: Error, c: Context<E>): Response
 }
@@ -17,6 +18,9 @@ export function createOAuthHandler<E extends HonoEnv = any>(options: OAuthHandle
     const providers = await options.providers(c)
     const provider = providers.find((p) => p.name === providerName)
     if (!provider) return c.text("unknown provider", 404)
+
+    const earlyResponse = await options.onLogin?.(c)
+    if (earlyResponse) return earlyResponse
 
     const state = generateState()
     const codeVerifier = generateCodeVerifier()
@@ -50,6 +54,11 @@ export function createOAuthHandler<E extends HonoEnv = any>(options: OAuthHandle
       const state = c.req.query("state")
       if (!code || !state) {
         return c.text("missing code or state", 400)
+      }
+
+      const expectedState = getCookie(c, "oauth_state")
+      if (!expectedState || state !== expectedState) {
+        return c.text("invalid oauth state", 400)
       }
 
       const codeVerifier = getCookie(c, "code_verifier")
